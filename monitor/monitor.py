@@ -44,8 +44,8 @@ with open('ip_port_list.txt') as file:
 df = pd.DataFrame(columns=['HOST','IP','PORT','STATUS','DATE','PING_BEGINS','PING_ENDS'])
 appendix = ""
 
-    
-for x in range(1,2):
+i = 1
+for x in range(1,201):
     time.sleep(1)
     # Ping each ip-port adderess in the list    
     for i in dump:
@@ -63,7 +63,7 @@ for x in range(1,2):
             row = {'HOST':str(host), 'IP':str(ip),'PORT':str(port),'STATUS':'down', 'DATE':str(now.date()), 'PING_BEGINS':str('{: %H:%M:%S.%f}'.format(now)[:-3]), 'PING_ENDS':str('{: %H:%M:%S.%f}'.format(now2)[:-3])}
             df  = df.append(row, ignore_index=True)
     
-            
+            """
     #Check if all the connections are up to change the name of the file
     if 'down' in df.STATUS.values:
         appendix = "_Ip-Port_DownConns"
@@ -71,7 +71,7 @@ for x in range(1,2):
     else:
         appendix = "_Ip-Port"
         print('All connections are up in this checking')
-
+"""
 
 csv_buffer = "out.csv"
 df.to_csv(csv_buffer, index=False)

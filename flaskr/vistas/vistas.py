@@ -1,3 +1,4 @@
+import base64
 from flask import request
 from ..modelos import db, Usuario, UsuarioSchema
 from flask_restful import Resource
@@ -15,9 +16,15 @@ def registrar_log(*args):
 class VistaSignIn(Resource):
 
     def post(self):
+        contra = request.json["contrasena"].encode("utf-8")
+        contra_encode = base64.b64encode(contra)
+
+        tarjeta = request.json["tarjeta"].encode("utf-8")
+        tarjeta_encode = base64.b64encode(tarjeta)
+        
         nuevo_usuario = Usuario(usuario=request.json["usuario"],
-                                contrasena=request.json["contrasena"],
-                                tarjeta=request.json["tarjeta"])
+                                contrasena=contra_encode,
+                                tarjeta=tarjeta_encode)
         db.session.add(nuevo_usuario)
         db.session.commit()
         return {"mensaje": "Usuario creado exitosamente", "id": nuevo_usuario.id}

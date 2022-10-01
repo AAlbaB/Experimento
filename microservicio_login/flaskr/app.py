@@ -1,3 +1,4 @@
+import base64
 from datetime import datetime
 from flaskr import create_app
 from flask import request
@@ -22,8 +23,12 @@ def registrar_log(usuario, fecha):
 
 class VistaLogin(Resource):
     def post(self):
+
+        contra = request.json["contrasena"].encode("utf-8")
+        contra_encode = base64.b64encode(contra)
+
         usuario = Usuario.query.filter(Usuario.usuario == request.json["usuario"],
-                                       Usuario.contrasena == request.json["contrasena"]).first()
+                                       Usuario.contrasena == contra_encode).first()
         db.session.commit()
         if usuario is None:
             return "El usuario no existe", 401

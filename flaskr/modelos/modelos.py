@@ -8,6 +8,7 @@ class Usuario(db.Model):
     usuario = db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
     tarjeta = db.Column(db.String(50))
+    reglas = db.Column(db.Boolean, default=True)
 
 
 class UsuarioSchema(SQLAlchemyAutoSchema):
